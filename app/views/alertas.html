@@ -1,0 +1,118 @@
+<div ng-controller="AlertasCtrl">
+  <div class="panel panel-primary">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">Alertas</h3>
+    </div>
+  <table class="table table-hover">
+
+    <tr style="font-weight: bold">
+      <th>
+        <a href="" ng-click="ordenarPor('nombre')">
+          Id Alerta
+        </a>
+      </th>
+      <th >Fecha</th>
+      <th >Tipo de alerta</th>
+      <th>Usuario</th>
+      <th >Latitud</th>
+      <th >Longitud</th>
+      <th>Estado</th>
+      <th >Actualizada</th>
+      <th >Comentario</th>
+      <th >Detalles</th>
+    </tr>
+
+    <tr ng-repeat="alerta in alertas | orderBy:ordenSeleccionado | filter:buscar">
+      <td>
+              {{ alerta.idalerta || 'empty' }}
+
+      </td>
+      <td>
+              {{ alerta.fecha || 'empty' }}
+
+      </td>
+      <td>
+      {{ alerta.idtiposalerta }}
+
+    </td>
+      <td>
+        {{ alerta.idusuario || 'empty' }}
+
+      </td>
+
+
+      <td>
+              {{ alerta.latitud || 'empty' }}
+
+      </td>
+
+      <td>
+              {{ alerta.longitud || 'empty' }}
+
+      </td>
+
+      <td>
+              {{ alerta.estado }}
+
+      </td>
+
+      <td>
+              {{ alerta.actualizada || 'empty' }}
+
+      </td>
+
+      <td>
+              {{ alerta.comentario || 'empty' }}
+
+      </td>
+
+
+
+
+      <td  style="white-space: nowrap">
+        <!-- form -->
+         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"">
+            Detalles
+          </button>
+       </td>
+    </tr>
+
+  </table>
+  </div>
+
+
+  <br><br>
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalles de la orden</h4>
+      </div>
+      <div class="modal-body">
+<google-map center="{latitude: 30, longitude: -120}">
+
+</google-map>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div>
+  <div>
+    <div>
+
+    </div>
+  </div>
+</div>
+</div>
