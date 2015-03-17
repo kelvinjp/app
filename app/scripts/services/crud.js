@@ -17,10 +17,40 @@ angular.module('appApp')
         password:'@password'}
       }
     }),
+
     getAlert: $resource('http://alertapp-kelvinjp.c9.io/getAlert',{},{
       all: {method: 'GET',isArray:true}
     }),
 
+    addCliente: $resource('http://alertapp-kelvinjp.c9.io/addUser',{},{
+      nuevoCliente: {method: 'POST', params:{
+        nombres:'@nombres',
+        apellidos:'@apellidos',
+        username:'@username',
+        password:'@password',
+        telefono:'@telefono',
+        direccion:'@direccion',
+        cedula:'@cedula',
+        idtipouser:'@idtipouser',
+        email:'@email'
+
+      }
+      }
+    }),
+    editar: $resource('http://alertapp-kelvinjp.c9.io/editUser',{},{
+      cliente: {method: 'POST', params:{
+        nombres:'@nombres',
+        apellidos:'@apellidos',
+        username:'@username',
+        password:'@password',
+        telefono:'@telefono',
+        direccion:'@direccion',
+        cedula:'@cedula',
+        idtipouser:'@idtipouser',
+        email:'@email'
+      }
+      }
+    }),
 
     /**************************************************************
      *
@@ -66,23 +96,6 @@ angular.module('appApp')
       tdc: {method: 'GET', params:{
         value:'@value'}}
 
-    }),
-
-    getCliente: $resource('http://104.131.121.228:8080/API4-0.1.2/getCliente',{},{
-      bycorreo: {method: 'GET', params:{
-        correo:'@correo'
-      }, isArray: false
-      }
-    }),
-    addCliente: $resource('http://104.131.121.228:8080/API4-0.1.2/addCliente',{},{
-      nuevoCliente: {method: 'GET', params:{
-        nombre:'@nombre',
-        apellido:'@apellido',
-        correo:'@correo',
-        direccion:'@direccion',
-        telefono:'@telefono'}
-
-      }
     }),
 
     obtenerPedidos: $resource('http://104.131.121.228:8080/API4-0.1.2/pedidos',{},{

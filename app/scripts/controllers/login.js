@@ -18,6 +18,18 @@ angular.module('appApp')
       if(usr.nombre != 'wrong'){
         $scope.usrConectado.nombre = usr.nombres;
         $scope.usrConectado.user = usr.username;
+
+        var adm = false;
+        var clt = false;
+
+        if(usr.idtiposusuario == 0 ){
+          adm = true;
+        }else{
+          clt = true;
+        }
+        $scope.usrConectado.admin = adm;
+        $scope.usrConectado.cliente = clt;
+
         $scope.usrConectado.estaConectado = true;
 
         $log.info($scope.usrConectado);

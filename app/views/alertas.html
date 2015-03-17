@@ -1,88 +1,125 @@
 <div ng-controller="AlertasCtrl">
+
   <div class="panel panel-primary">
 
     <div class="panel-heading">
       <h3 class="panel-title">Alertas</h3>
     </div>
-  <table class="table table-hover">
 
-    <tr style="font-weight: bold">
-      <th>
-        <a href="" ng-click="ordenarPor('nombre')">
-          Id Alerta
-        </a>
-      </th>
-      <th >Fecha</th>
-      <th >Tipo de alerta</th>
-      <th>Usuario</th>
-      <th >Latitud</th>
-      <th >Longitud</th>
-      <th>Estado</th>
-      <th >Actualizada</th>
-      <th >Comentario</th>
-      <th >Detalles</th>
-    </tr>
+    <p></p>
+    <h3>Buscar: <input ng-model="buscar">
+    </h3>
+    <table class="table table-hover">
 
-    <tr ng-repeat="alerta in alertas | orderBy:ordenSeleccionado | filter:buscar">
-      <td>
-              {{ alerta.idalerta || 'empty' }}
+      <tr style="font-weight: bold">
+        <th>
+          <a href="" ng-click="ordenarPor('nombre')">
+            Id Alerta
+          </a>
+        </th>
+        <th >Fecha</th>
+        <th >Tipo de alerta</th>
+        <th>Usuario</th>
+        <th >Latitud</th>
+        <th >Longitud</th>
+        <th>Estado</th>
+        <th >Actualizada</th>
+        <th >Comentario</th>
+        <th >Detalles</th>
+      </tr>
 
-      </td>
-      <td>
-              {{ alerta.fecha || 'empty' }}
+      <tr ng-repeat="alerta in alertas | orderBy:ordenSeleccionado | filter:buscar">
+        <td>
+          {{ alerta.idalerta || 'empty' }}
 
-      </td>
-      <td>
-      {{ alerta.idtiposalerta }}
+        </td>
+        <td>
+          {{ alerta.fecha || 'empty' }}
 
-    </td>
-      <td>
-        {{ alerta.idusuario || 'empty' }}
+        </td>
+        <td>
+          {{ alerta.idtiposalerta }}
 
-      </td>
+        </td>
+        <td>
+          {{ alerta.idusuario || 'empty' }}
 
-
-      <td>
-              {{ alerta.latitud || 'empty' }}
-
-      </td>
-
-      <td>
-              {{ alerta.longitud || 'empty' }}
-
-      </td>
-
-      <td>
-              {{ alerta.estado }}
-
-      </td>
-
-      <td>
-              {{ alerta.actualizada || 'empty' }}
-
-      </td>
-
-      <td>
-              {{ alerta.comentario || 'empty' }}
-
-      </td>
+        </td>
 
 
+        <td>
+          {{ alerta.latitud || 'empty' }}
+
+        </td>
+
+        <td>
+          {{ alerta.longitud || 'empty' }}
+
+        </td>
+
+        <td>
+          {{ alerta.estado }}
+
+        </td>
+
+        <td>
+          {{ alerta.actualizada || 'empty' }}
+
+        </td>
+
+        <td>
+          {{ alerta.comentario || 'empty' }}
+
+        </td>
 
 
-      <td  style="white-space: nowrap">
-        <!-- form -->
-         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"">
+
+
+        <td  style="white-space: nowrap">
+          <!-- form -->
+          <button class="btn btn-primary"  ng-click="actualizar(alerta)">
+
             Detalles
           </button>
-       </td>
-    </tr>
+        </td>
+        <!--<td  style="white-space: nowrap">
 
-  </table>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Modal</button>
+        </button>
+      </td> -->
+      </tr>
+
+    </table>
   </div>
 
 
-  <br><br>
+
+
+  <div   class="panel panel-primary">
+
+    <div class="panel-heading">
+      <h3 class="panel-title">Mapa</h3>
+    </div>
+    <div id="map_canvas">
+
+
+
+      <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+        <ui-gmap-marker  ng-show="showMap" coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+        </ui-gmap-marker>
+      </ui-gmap-google-map>
+
+    </div>
+
+
+  </div>
+
+
+
+</div>
+
+
+<br><br>
 
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -93,11 +130,17 @@
         <h4 class="modal-title" id="myModalLabel">Detalles de la orden</h4>
       </div>
       <div class="modal-body">
-<google-map center="{latitude: 30, longitude: -120}">
 
-</google-map>
+        <div id="map_canvas">
 
 
+
+          <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+            </ui-gmap-marker>
+          </ui-gmap-google-map>
+
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

@@ -46,7 +46,16 @@
               <li >
                 <a ng-href="#/login" ng-show="!usrConectado.estaConectado">Entrar</a>
               </li>
-              <li ng-show="usrConectado.estaConectado" role="presentation" ><a href="#alertas">Alertas <span  class="badge">3</span></a>
+              <li >
+                <a ng-href="#/alta" ng-show="!usrConectado.estaConectado">Registrarse</a>
+              </li>
+              <li ng-show="usrConectado.admin" role="presentation" ><a href="#alertas">Alertas </a>
+                <a  ></a>
+              </li>
+              <li ng-show="usrConectado.cliente" role="presentation" ><a href="#vehiculos">Vehiculos </a>
+                <a  ></a>
+              </li>
+              <li ng-show="usrConectado.cliente" role="presentation" ><a href="#perfil">Mi Perfil </a>
                 <a  ></a>
               </li>
 
@@ -92,7 +101,6 @@
        ga('send', 'pageview');
     </script>
 
-   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -107,8 +115,9 @@
     <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-md5/angular-md5.js"></script>
-    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src='bower_components/lodash/dist/lodash.compat.min.js'></script>
+    <script src='bower_components/angular-google-maps/dist/angular-google-maps.min.js'></script>
 
     <!-- endbower
 <script src="bower_components/angular-google-maps/package.js">
@@ -128,6 +137,10 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/nav.js"></script>
         <script src="scripts/controllers/alertas.js"></script>
+        <script src="scripts/controllers/alta.js"></script>
+        <script src="scripts/controllers/registrado.js"></script>
+        <script src="scripts/controllers/editarusuario.js"></script>
+        <script src="scripts/controllers/vehiculos.js"></script>
         <!-- endbuild -->
 </body>
 </html>

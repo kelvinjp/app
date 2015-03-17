@@ -8,14 +8,44 @@
  * Controller of the appApp AlertasCtrl
  */
 angular.module('appApp')
-  .controller('AlertasCtrl', function ($scope, $filter, $http, TareasResourse ) {
+  .controller('AlertasCtrl', function ($scope, $filter, $http, TareasResourse, $timeout ) {
     $scope.alertas = TareasResourse.getAlert.all();
+
+    $scope.alerta = $scope.alertas[0];
+    $scope.showMap = false;
+
+    $scope.map = { center: { latitude: 18, longitude: -69 }, zoom: 8 };
+
+
+    $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: 45,
+        longitude: -73
+      }};
+
+
+    $scope.actualizar = function(alerta){
+      $scope.showMap = true;
+
+      $scope.marker.coords.latitude = alerta.latitud;
+      $scope.marker.coords.longitude = alerta.longitud;
+      $scope.map.center.latitude  = alerta.latitud;
+      $scope.map.center.longitude  = alerta.longitud;
+      $scope.map.zoom = 16;
+
+
+    };
+
+
+
+
+
+
 
 
 //ordenar
     $scope.editar = false;
-
-
 
 
 
@@ -72,11 +102,7 @@ angular.module('appApp')
       $scope.alertas = TareasResourse.getAlert.all();
     };
 
-    $scope.eliminar = function($id){
-      TareasResourse.eliminar.tarea({id:$id});
 
-      $scope.alertas = TareasResourse.getAlert.all();
-    };
 
     $scope.editar = function(tarea){
       // $scope.editar = true;

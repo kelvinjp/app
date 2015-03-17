@@ -14,15 +14,31 @@ angular.module('appApp')
     $scope.estaConectado=$cookieStore.get('estaConectado');
 
     if(typeof usuario === 'undefined'){
-      $scope.usrConectado = {nombre:"", user:'', estaConectado:false};
+      $scope.usrConectado = {nombre:"", user:'', admin: '', cliente:'', estaConectado:false};
 
+      //Si Se encontro algo en las cookies
     }else{
-      $scope.usrConectado = {nombre:usuario.nombre, user:usuario.user, estaConectado:true};
+      var adm = false;
+      var clt = false;
+
+      if(usuario.idtiposusuario == 0 ){
+        adm = true;
+      }else{
+        clt = true;
+      }
+
+      $scope.usrConectado = {
+        nombre: usuario.nombre,
+        user: usuario.user,
+        admin: adm,
+        cliente: clt,
+        estaConectado:true
+      };
     }
 
 
     $scope.salir = function(){
-      $scope.usrConectado = {nombre:"", user:'', estaConectado:false};
+      $scope.usrConectado = {nombre:"", user:'', admin: '', cliente:'', estaConectado:false};
       $cookieStore.remove('estaConectado');
       $cookieStore.remove('user');
 

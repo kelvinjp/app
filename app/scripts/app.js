@@ -18,9 +18,12 @@ angular
     'ngTouch',
     'xeditable',
     'ui.bootstrap',
-    'google-maps'
+    'angular-md5',
+    'uiGmapgoogle-maps'
 
   ])
+
+
 
   .run(function(editableOptions, $rootScope, $location, $cookieStore){
     editableOptions.theme = 'bs3';
@@ -43,7 +46,8 @@ angular
     });
   })
 
-  .config(function ($routeProvider) {
+  .config(
+  function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -60,6 +64,22 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/alta', {
+        templateUrl: 'views/alta.html',
+        controller: 'AltaCtrl'
+      })
+      .when('/registrado', {
+        templateUrl: 'views/registrado.html',
+        controller: 'AltaCtrl'
+      })
+      .when('/perfil', {
+        templateUrl: 'views/editarusuario.html',
+        controller: 'EditarusuarioCtrl'
+      })
+      .when('/vehiculos', {
+        templateUrl: 'views/vehiculos.html',
+        controller: 'VehiculosCtrl'
       })
       .otherwise({
         redirectTo: '/'
