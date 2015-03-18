@@ -21,6 +21,9 @@ angular.module('appApp')
     getAlert: $resource('http://alertapp-kelvinjp.c9.io/getAlert',{},{
       all: {method: 'GET',isArray:true}
     }),
+    getTipos: $resource('http://alertapp-kelvinjp.c9.io/getTiposAlert',{},{
+      all: {method: 'GET',isArray:true}
+    }),
 
     addCliente: $resource('http://alertapp-kelvinjp.c9.io/addUser',{},{
       nuevoCliente: {method: 'POST', params:{
@@ -51,6 +54,7 @@ angular.module('appApp')
       }
       }
     }),
+
 
     /**************************************************************
      *

@@ -8,10 +8,56 @@
  * Controller of the appApp AlertasCtrl
  */
 angular.module('appApp')
-  .controller('AlertasCtrl', function ($scope, $filter, $http, TareasResourse, $timeout ) {
+  .controller('AlertasCtrl', function ($scope, $q, $filter, $http, TareasResourse, $timeout ) {
+    $scope.statuses ='';
+
+    var inicioSesion = $q.defer();
+
+    inicioSesion.promise.then(usrASesion);
+    //le propagamos estos valores al controlador padre para poder ocultar elmentos del menu ya que el menu tiene otro controlador
+    function usrASesion(usr){
+      if(usr.nombre != 'wrong'){
+        $scope.statuses = usr;
+      }else{
+        $scope.errormsj= true;
+      }
+    };
+
+    $scope.iniciarSesion = function(){
+      //Enciptamos el passowrd
+      //var crypt = md5.createHash($scope.usuario.txtpass);
+      var usr =   TareasResourse.getTipos.all()
+        .$promise.then(function(usr){
+          inicioSesion.resolve(usr);
+        });
+
+    };
+    $scope.iniciarSesion();
+
+    $scope.showStatus = function(tarea) {
+      var selected = [];
+      if(tarea.idtiposalerta) {
+        selected = $filter('filter')($scope.statuses, {value: tarea.idtiposalerta});
+      }
+      return selected.length ? selected[0].nombre : tarea.idtiposalerta;
+    };
+
+    $scope.alertaComentario = '';
+    $scope.alertaEstado = '';
+    $scope.alertaId = '';
+
+    $scope.verAlerta = function(tarea) {
+      $scope.alertaComentario = tarea.comentario;
+      $scope.alertaEstado = tarea.estado;
+      $scope.alertaId = tarea.idalerta;
+    };
+
+
     $scope.alertas = TareasResourse.getAlert.all();
 
-    $scope.alerta = $scope.alertas[0];
+
+
+    $scope.vehiculo = $scope.alertas[0];
     $scope.showMap = false;
 
     $scope.map = { center: { latitude: 18, longitude: -69 }, zoom: 8 };
@@ -28,18 +74,19 @@ angular.module('appApp')
     $scope.actualizar = function(alerta){
       $scope.showMap = true;
 
-      $scope.marker.coords.latitude = alerta.latitud;
-      $scope.marker.coords.longitude = alerta.longitud;
-      $scope.map.center.latitude  = alerta.latitud;
-      $scope.map.center.longitude  = alerta.longitud;
+      $scope.marker.coords.latitude = vehiculo.latitud;
+      $scope.marker.coords.longitude = vehiculo.longitud;
+      $scope.map.center.latitude  = vehiculo.latitud;
+      $scope.map.center.longitude  = vehiculo.longitud;
       $scope.map.zoom = 16;
 
 
     };
 
 
-
-
+/**
+ * Mostrando estus
+ * */
 
 
 

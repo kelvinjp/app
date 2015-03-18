@@ -9,9 +9,5 @@
  */
 angular.module('appApp')
   .controller('VehiculosCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    $scope.vehiculos = [{marca:'Izusu', modelo:'DMax', fecha:'2014', placa:'L523533', chasis:'DKL32345233423'}];
   });
