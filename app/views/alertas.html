@@ -28,47 +28,47 @@
         <th >Detalles</th>
       </tr>
 
-      <tr ng-repeat="vehiculo in alertas | orderBy:ordenSeleccionado | filter:buscar">
+      <tr ng-repeat="alerta in alertas | orderBy:ordenSeleccionado | filter:buscar">
         <td>
-          {{ vehiculo.idalerta || 'empty' }}
+          {{ alerta.idalerta || 'empty' }}
 
         </td>
         <td>
-          {{ vehiculo.fecha || 'empty' }}
+          {{ alerta.fecha || 'empty' }}
 
         </td>
         <td>
-         {{ showStatus(vehiculo)}}
+          {{ showTipos(alerta) }}
 
         </td>
         <td>
-          {{ vehiculo.idusuario || 'empty' }}
+          {{ alerta.idusuario || 'empty' }}
 
         </td>
 
 
         <td>
-          {{ vehiculo.latitud || 'empty' }}
-
-        </td>
-
-        <td>
-          {{ vehiculo.longitud || 'empty' }}
+          {{ alerta.latitud || 'empty' }}
 
         </td>
 
         <td>
-          {{ vehiculo.estado }}
+          {{ alerta.longitud || 'empty' }}
 
         </td>
 
         <td>
-          {{ vehiculo.actualizada || 'empty' }}
+          {{ showEstado(alerta)}}
 
         </td>
 
         <td>
-          {{ vehiculo.comentario || 'empty' }}
+          {{ alerta.actualizada || 'empty' }}
+
+        </td>
+
+        <td>
+          {{ alerta.comentario || 'empty' }}
 
         </td>
 
@@ -77,9 +77,8 @@
 
         <td  style="white-space: nowrap">
           <!-- form -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="verAlerta(vehiculo)">Editar</button>
-
-          </button>
+          <button class="btn btn-primary"  ng-click="actualizar(alerta)">Mapa</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="editarAlerta(alerta)">Editar</button>
         </td>
         <!--<td  style="white-space: nowrap">
 
@@ -128,44 +127,44 @@
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
         <h4 class="modal-title" id="myModalLabel">Editar Alerta</h4>
       </div>
+      <div class="modal-body">
 
 
 
-      <div>
-        <div class="container" style="width: 310px" >
+        <div style='width:350px;'  class="container">
           <h1>Alerta</h1>
           <hr>
 
-          <form style="width: 300px" role="form" name="forma">
+          <form role="form" name="forma">
 
             <div class="form-group" ng-class="{'has-error': forma.UsernameU.$invalid, 'has-success': forma.UsernameU.$valid}">
-              <label for="inputUsername">Id Alerta</label>
-              <input id="inputUsername" type="text" class="form-control" placeholder="Username" name="UsernameU" ng-model="alertaId" required>
+              <label for="IdUsuario">Id Usuario</label>
+              <label id="IdUsuario" for="IdUsuario">{{alertaIdUsuario}}</label>
+            </div>
+            <div class="form-group" ng-class="{'has-error': forma.passwordU.$invalid, 'has-success': forma.passwordU.$valid}">
+              <label for="inputPassword">Comentario</label>
+              <input id="inputPassword" type="text" class="form-control" placeholder="Comentario" name="comentarioAl" ng-model="alertaComentario" required>
             </div>
             <div class="form-group" ng-class="{'has-error': forma.EmailU.$invalid, 'has-success': forma.EmailU.$valid}">
               <label for="inputEmail">Estado</label>
               <input id="inputEmail" type="text" class="form-control" placeholder="Email" name="EmailU" ng-model="alertaEstado" required>
             </div>
-            <div class="form-group" ng-class="{'has-error': forma.nombreU.$invalid, 'has-success': forma.nombreU.$valid}">
-              <label for="inputNombre">Comentario</label>
-              <input id="inputNombre" type="text" class="form-control" placeholder="Nombre" name="nombreU" ng-model="alertaComentario" required>
-            </div>
+            <div>
 
-            <button class="btn btn-success " ng-disabled="forma.$invalid" ng-click="ModificarAlerta()">Guardar</button>
+
+
+            </div>
+            <button class="btn btn-success " ng-disabled="forma.$invalid" ng-click="actualizarAlerta()">Guardar</button>
           </form>
         </div>
+
+
+
+
+
+
+
       </div>
-
-
-
-
-
-
-
-
-
-
-
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
@@ -173,13 +172,3 @@
   </div>
 </div>
 
-
-
-<div>
-  <div>
-    <div>
-
-    </div>
-  </div>
-</div>
-</div>
