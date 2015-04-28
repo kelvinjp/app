@@ -8,8 +8,10 @@
  * Controller of the appApp
  */
 angular.module('appApp')
-  .controller('AltaCtrl', function ($scope,$q, $filter, $http, $cookieStore, $location, TareasResourse) {
-
+  .controller('Alta2Ctrl', function ($scope,$q, $filter, $http, $cookieStore, $location, TareasResourse) {
+   $scope.tipos =  [{id:0, nombre:'Administrador'},{id:1, nombre:'Cliente'}];
+    $scope.selectedEstado = $scope.tipos[1]; 
+     
     $scope.clienteUsername = '';
     $scope.clientePassoword = '';
     $scope.clienteNombre = '';
@@ -19,6 +21,7 @@ angular.module('appApp')
     $scope.email = '';
     $scope.clienteDireccion = '';
     $scope.clienteCedula ='';
+
 
     var conn = $q.defer();
 
@@ -38,6 +41,7 @@ angular.module('appApp')
     };
 
     $scope.altaClietne = function(){
+      alert($scope.selectedEstado.id); 
 
       var usr =   TareasResourse.addCliente.nuevoCliente({
         nombres: $scope.clienteNombre,
@@ -48,7 +52,7 @@ angular.module('appApp')
         direccion: $scope.clienteDireccion,
         cedula: $scope.clienteCedula,
         email: $scope.clienteEmail,
-        idtipouser: 1
+        idtipouser:  $scope.selectedEstado.id
       })
         .$promise.then(function(usr){
           conn.resolve(usr);

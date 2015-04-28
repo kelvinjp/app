@@ -41,12 +41,10 @@ angular.module('appApp')
       $scope.usrConectado = {nombre:"", user:'', admin: '', cliente:'', estaConectado:false};
       $cookieStore.remove('estaConectado');
       $cookieStore.remove('user');
-
       $location.path('/login');
+      $route.reload();
     };
     $scope.cambiarIdioma = function(idioma){
       $translate.use(idioma);
-
     }
-
   });

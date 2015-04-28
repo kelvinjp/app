@@ -8,52 +8,42 @@
  * Controller of the appApp AlertasCtrl
  */
 angular.module('appApp')
-  .factory("menuService", ["$rootScope", function($rootScope) {
-    "use strict";
-
-    return {
-      menu: function() {
-        $rootScope.globalMenu;
-      },
-      setMenu: function(menu) {
-        $rootScope.globalMenu = menu;
-      }
-    };
-
-  }])
-  .controller('AlertasCtrl', function ($scope, menuService, $q, $filter, $http, TareasResourse, $timeout ) {
+  .controller('AlertasCtrl', function ($scope, $q, $filter, $http, TareasResourse, $timeout ) {
     $scope.tipos;
     $scope.estados;
+    $scope.alertaComentario ;
+    $scope.alertaEstado ;
+    $scope.alertaId ;
+    $scope.alt;
+    $scope.guardado = false;
 
-    menuService.setMenu([{href:"#", label:"Dropdown",
-      dropdown:[{href:"/edit", label:"Edit"}]},
-      {href:'/', label:'test'}]);
+    $scope.currentPage = 1;
+    $scope.pageSize = 5;
 
-    $scope.bodyText = "Some text";
+    $scope.pageChangeHandler = function(num) {
+      console.log('page changed to ' + num);
+    };
 
 
-    /****
+    /*********************************************************************
      * AQUI OBTENEMOS LOS TIPOS DE ALERTAS
      *
-     * */
-    var inicioSesion = $q.defer();
+     ******************************************************************* */
+    var connAlts = $q.defer();
 
-    inicioSesion.promise.then(usrASesion);
-    //le propagamos estos valores al controlador padre para poder ocultar elmentos del menu ya que el menu tiene otro controlador
-    function usrASesion(usr){
-      if(usr.nombre != 'wrong'){
-        $scope.tipos = usr;
+    connAlts.promise.then(result);
+    function result(rs){
+      if(rs.nombre != 'wrong'){
+        $scope.tipos = rs;
       }else{
         $scope.errormsj= true;
       }
     };
 
     $scope.iniciarSesion = function(){
-      //Enciptamos el passowrd
-      //var crypt = md5.createHash($scope.usuario.txtpass);
       var usr =   TareasResourse.getTipos.all()
         .$promise.then(function(usr){
-          inicioSesion.resolve(usr);
+          connAlts.resolve(usr);
         });
 
     };
@@ -70,7 +60,6 @@ angular.module('appApp')
 
     /***************************************************************
      * AQUI OBTENEMOS ESTADOS POSIBLES DE LAS ALERTAS
-     *
      * ************************************************************/
     var inicioEstados = $q.defer();
 
@@ -95,40 +84,68 @@ angular.module('appApp')
     };
     $scope.iniciarEstado();
 
+
+
     $scope.showEstado = function(alerta) {
       var selected = [];
-      if(alerta!='undefine') {alert($scope.estados.length)
+      if(alerta!='undefine') {
         selected = $filter('filter')($scope.estados, {idestado: alerta.estado});
       }
       return selected.length ? selected[0].nombre : alerta.idtiposalerta;
     };
+
+
 /*************************************************************************************
  *
  * Editar Alerta
  *
  * ***********************************************************************************/
 
-
-    $scope.alertaComentario = '';
-    $scope.alertaEstado = '';
-    $scope.alertaId = '';
-
     $scope.editarAlerta = function(alerta) {
+     var seleccion= [];
+     seleccion = $filter('filter')($scope.estados, {idestado: alerta.estado});
+      $scope.selectedEstado = seleccion[0];
+
+      $scope.guardado = false;
+
       $scope.alt = alerta;
+      console.log( $scope.alt);
       $scope.alertaComentario = alerta.comentario;
       $scope.alertaEstado = alerta.tipos;
-      $scope.alertaId = alerta.idalerta;
+      $scope.alertaIdUsuario = alerta.idalerta;
+    };
+
+     var editA = $q.defer();
+
+    editA.promise.then(edAlert);
+
+    function edAlert(usr){
+      if(usr.affectedRows==1){
+        $scope.guardado = true;
+         $scope.alertas = TareasResourse.getAlert.all();
+      }else{
+        if(usr==undefined){
+          alert("Error de Conexion");
+        }else{
+          alert("Error");
+        }
+      }
+    };
+      $scope.guardarCambios = function() {
+      var ed =   TareasResourse.e.a({
+        idalerta: $scope.alt.idalerta,
+        estado: $scope.selectedEstado.idestado,
+        comentario: $scope.alt.comentario
+      })
+        .$promise.then(function(ed){
+          editA.resolve(ed);
+        });
     };
 
     $scope.alertas = TareasResourse.getAlert.all();
 
-
-
     $scope.showMap = false;
-
     $scope.map = { center: { latitude: 18, longitude: -69 }, zoom: 8 };
-
-
     $scope.marker = {
       id: 0,
       coords: {
@@ -136,124 +153,40 @@ angular.module('appApp')
         longitude: -73
       }};
 
-
     $scope.actualizar = function(alerta){
       $scope.showMap = true;
-
       $scope.marker.coords.latitude = alerta.latitud;
       $scope.marker.coords.longitude = alerta.longitud;
       $scope.map.center.latitude  = alerta.latitud;
       $scope.map.center.longitude  = alerta.longitud;
       $scope.map.zoom = 16;
-
-
     };
 
 
     /**************************************************************************************
-     * DropDown
+     * Format Data
      * ********************************************************************/
+ $scope.fDate = function(date){
+  var x = date.substring(0,18);
 
+     var t = x.split(/[- 'T':]/);
+     var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
 
+      var dformat = [
+        d.getDate(),
+        d.getMonth()+1,
+        d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes()].join(':');
+               return dformat;
+    };
 
     /**************************************************************************************
-     * DropDown
+     * Format Data
      * ********************************************************************/
-
-
-
-
-//ordenar
-    $scope.editar = false;
-
-
-
-    $scope.saveUser = function(data, id) {
-      //$scope.user not updated yet
-      if(id==-1){
-        TareasResourse.agregar.nuevaTarea({
-          nombre:data.nombre,
-          descripcion:data.descripcion,
-          precio:data.precio,
-          tipo:data.tipo
-        });
-      }else{
-        TareasResourse.actualizar.tarea({
-          id:id,
-          nombre:data.nombre,
-          descripcion:data.descripcion,
-          precio:data.precio,
-          tipo:data.tipo});
-
-      }
-
-      $scope.alertas = TareasResourse.getAlert.all();
-      $scope.alertas = TareasResourse.getAlert.all();
-    };
-    $scope.removeUser = function(index) {
-      TareasResourse.eliminar.tarea({
-        id:index
-      });
-
-      $scope.alertas = TareasResourse.getAlert.all();
-    };
-
-
-    $scope.agregarTarea = function(){
-      TareasResourse.agregar.nuevaTarea({
-        nombre:$scope.txtnombre,
-        descripcion:$scope.txtdescripcion,
-        precio:$scope.txtprecio,
-        tipo:$scope.txttipo
-      });
-      $scope.alertas = TareasResourse.getAlert.all();
-      $scope.alertas = TareasResourse.getAlert.all();
-    };
-
-    $scope.actualizarTarea = function(){
-      TareasResourse.actualizar.tarea({
-        id:$scope.tareaActual.id,
-        nombre:$scope.txtnombre,
-        descripcion:$scope.txtdescripcion,
-        precio:$scope.txtprecio,
-        tipo:$scope.txttipo});
-
-      $scope.alertas = TareasResourse.getAlert.all();
-    };
-
-
-
-    $scope.editar = function(tarea){
-      // $scope.editar = true;
-      // $scope.tareaActual=tarea;
-      $scope.txtnombre = tarea.nombre;
-      $scope.txtdescripcion = tarea.descripcion;
-      $scope.txtprecio = tarea.precio;
-      $scope.txttipo = tarea.tipo;
-    };
-    $scope.ordenarPor = function(orden) {
-      $scope.ordenSeleccionado = orden;
-    };
-//-------------------------------------------------------------------
-
-    $scope.addUser = function() {
-      $scope.inserted = {
-        id: -1,
-        nombre: '',
-        descripcion: '',
-        precio: null,
-        tipo: null
-      };
-      $scope.alertas.push($scope.inserted);
-    };
 
 
   })
 
 
 ;
-
-
-
-
-

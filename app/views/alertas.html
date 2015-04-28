@@ -1,16 +1,16 @@
 <div ng-controller="AlertasCtrl">
-
   <div class="panel panel-primary">
-
     <div class="panel-heading">
       <h3 class="panel-title">Alertas</h3>
     </div>
-
     <p></p>
-    <h3>Buscar: <input ng-model="buscar">
-    </h3>
-    <table class="table table-hover">
+    <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i> </span>
+      <input type="text" class="form-control" placeholder="Buscar Alerta" ng-model="buscar.username">
 
+    </div>
+
+    <table class="table table-hover table-responsive">
       <tr style="font-weight: bold">
         <th>
           <a href="" ng-click="ordenarPor('nombre')">
@@ -20,155 +20,119 @@
         <th >Fecha</th>
         <th >Tipo de alerta</th>
         <th>Usuario</th>
-        <th >Latitud</th>
-        <th >Longitud</th>
+        <th class="hidden-xs">Latitud</th>
+        <th class="hidden-xs" >Longitud</th>
         <th>Estado</th>
-        <th >Actualizada</th>
-        <th >Comentario</th>
-        <th >Detalles</th>
+        <th class="hidden-xs" >Actualizada</th>
+        <th >Opciones</th>
       </tr>
-
-      <tr ng-repeat="alerta in alertas | orderBy:ordenSeleccionado | filter:buscar">
-        <td>
-          {{ alerta.idalerta || 'empty' }}
-
-        </td>
-        <td>
-          {{ alerta.fecha || 'empty' }}
-
-        </td>
-        <td>
-          {{ showTipos(alerta) }}
-
-        </td>
-        <td>
-          {{ alerta.idusuario || 'empty' }}
-
-        </td>
+      <tr dir-paginate="alerta in alertas | orderBy:'-idalerta' | filter:buscar | itemsPerPage: pageSize" current-page="currentPage" >
 
 
-        <td>
-          {{ alerta.latitud || 'empty' }}
+      <td>
+        {{ alerta.idalerta || 'empty' }}
+      </td>
+      <td>
+        {{ fDate(alerta.fecha) || 'empty' }}
+      </td>
+      <td>
+        {{ showTipos(alerta) }}
+      </td>
+      <td>
+        {{ alerta.username || 'empty' }}
+      </td>
+      <td class="hidden-xs">
+        {{ alerta.latitud || 'empty' }}
+      </td>
+      <td class="hidden-xs">
+        {{ alerta.longitud || 'empty' }}
+      </td>
+      <td class="hidden-xs">
+        <div ng-if="alerta.estado == 0">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        </div>
+        <div ng-if="alerta.estado == 1">
+          <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+      </div>
+        <div ng-if="alerta.estado == 2">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </div>
+      </td>
+      <td class="hidden-xs">
+        {{ fDate(alerta.actualizada) || 'empty' }}
+      </td>
 
-        </td>
-
-        <td>
-          {{ alerta.longitud || 'empty' }}
-
-        </td>
-
-        <td>
-          {{ showEstado(alerta)}}
-
-        </td>
-
-        <td>
-          {{ alerta.actualizada || 'empty' }}
-
-        </td>
-
-        <td>
-          {{ alerta.comentario || 'empty' }}
-
-        </td>
-
-
-
-
-        <td  style="white-space: nowrap">
-          <!-- form -->
-          <button class="btn btn-primary"  ng-click="actualizar(alerta)">Mapa</button>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="editarAlerta(alerta)">Editar</button>
-        </td>
-        <!--<td  style="white-space: nowrap">
-
-          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Modal</button>
-        </button>
-      </td> -->
+      <td  style="white-space: nowrap">
+        <!-- form -->
+        <button class="btn btn-primary"  ng-click="actualizar(alerta)">Mapa</button>
+        <button class="btn btn-primary"  ng-click="editarAlerta(alerta)"  data-toggle="modal" data-target="#myModal">Editar</button>
+      </td>
+      <!--<td  style="white-space: nowrap">
+         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >Modal</button>
+         </button>
+         </td> -->
       </tr>
-
     </table>
+    <div>
+      <div>
+        <div>
+          <div ng-controller="OtherController" class="other-controller">
+            <div class="text-center">
+              <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+
 
 
 
 
   <div   class="panel panel-primary">
-
     <div class="panel-heading">
       <h3 class="panel-title">Mapa</h3>
     </div>
     <div id="map_canvas">
-
-
-
       <ui-gmap-google-map center='map.center' zoom='map.zoom'>
         <ui-gmap-marker  ng-show="showMap" coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
         </ui-gmap-marker>
       </ui-gmap-google-map>
-
     </div>
-
-
   </div>
 
+  <br><br>
 
-
-</div>
-
-
-<br><br>
-
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-        <h4 class="modal-title" id="myModalLabel">Editar Alerta</h4>
-      </div>
-      <div class="modal-body">
-
-
-
-        <div style='width:350px;'  class="container">
-          <h1>Alerta</h1>
-          <hr>
-
-          <form role="form" name="forma">
-
-            <div class="form-group" ng-class="{'has-error': forma.UsernameU.$invalid, 'has-success': forma.UsernameU.$valid}">
-              <label for="IdUsuario">Id Usuario</label>
-              <label id="IdUsuario" for="IdUsuario">{{alertaIdUsuario}}</label>
-            </div>
-            <div class="form-group" ng-class="{'has-error': forma.passwordU.$invalid, 'has-success': forma.passwordU.$valid}">
-              <label for="inputPassword">Comentario</label>
-              <input id="inputPassword" type="text" class="form-control" placeholder="Comentario" name="comentarioAl" ng-model="alertaComentario" required>
-            </div>
-            <div class="form-group" ng-class="{'has-error': forma.EmailU.$invalid, 'has-success': forma.EmailU.$valid}">
-              <label for="inputEmail">Estado</label>
-              <input id="inputEmail" type="text" class="form-control" placeholder="Email" name="EmailU" ng-model="alertaEstado" required>
-            </div>
-            <div>
-
-
-
-            </div>
-            <button class="btn btn-success " ng-disabled="forma.$invalid" ng-click="actualizarAlerta()">Guardar</button>
-          </form>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+          <h4 class="modal-title" id="myModalLabel">Editar Alerta No: {{alt.idalerta}}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Comentario:</label>
+            <textarea type="text" ng-model="alt.comentario" class="form-control"> </textarea>
+          </div>
+          <div>
+            <label>Estado:</label>
+            <select class="form-control" ng-init="selectedEstado = estados[0]" ng-model="selectedEstado" ng-options="estado.nombre for estado in estados"></select>
+          </div>
+        </div>
+        <div class=" text-center">
+          <button  style="width:40"  class="btn btn-lg btn-primary" ng-click="guardarCambios()" >Guardar Cambios</button>
         </div>
 
-
-
-
-
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <div ng-show="guardado" class="alert alert-success" role="alert">Modificado Correctamente</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+
+</div>

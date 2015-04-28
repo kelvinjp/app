@@ -28,50 +28,80 @@
 
         <div class="container">
           <div class="navbar-header ">
-
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
+
             </button>
+            <img src="0.png" alt="Mountain View" style="width:140px;height:100px">
 
-            <a class="navbar-brand" href="#/">AlertApp</a>
+
           </div>
+          <ul style="list-style-type: none">
+            <li></li>
+          </ul>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav nav-pills pull-right">
-              <li class="active"><a href="#/">Inicio</a></li>
-              <li >
-                <a ng-href="#/login" ng-show="!usrConectado.estaConectado">Entrar</a>
-              </li>
-              <li >
-                <a ng-href="#/alta" ng-show="!usrConectado.estaConectado">Registrarse</a>
-              </li>
-              <li ng-show="usrConectado.admin" role="presentation" ><a href="#alertas">Alertas </a>
-                <a  ></a>
-              </li>
-              <li ng-show="usrConectado.cliente" role="presentation" ><a href="#vehiculos">Vehiculos </a>
-                <a  ></a>
-              </li>
-              <li ng-show="usrConectado.cliente" role="presentation" ><a href="#perfil">Mi Perfil </a>
-                <a  ></a>
-              </li>
-
-              <li ng-show="  usrConectado.estaConectado">
-                  <button class="btn btn-danger"ng-click="salir()" >Salir</button>
-              </li>
+          <div  class="collapse navbar-collapse" id="js-navbar-collapse"><ul style="list-style-type: none">
+            <li></li>
+          </ul>
+            <div class="container"><ul style="list-style-type: none">
+              <li></li>
             </ul>
+
+              <ul class="nav nav-pills pull-right">
+
+                <li class="active"><a href="#/">Inicio</a></li>
+                <li  ng-show="usrConectado.cliente"  class="dropdown">
+
+                  <a href="#vehiculos" class="dropdown-toggle">Vehiculos <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#vehiculos">Ver Vehiculos</a></li>
+                    <li><a href="#addVehiculo">Agregar Vehiculos</a></li>
+                  </ul>
+                </li>
+
+                <li >
+                  <a ng-href="#/login" ng-show="!usrConectado.estaConectado">Entrar</a>
+                </li>
+                <li >
+                  <a ng-href="#/alta" ng-show="!usrConectado.estaConectado">Registrarse</a>
+                </li>
+                <li ng-show="usrConectado.admin" role="presentation" ><a href="#alertas">Alertas </a>
+                </li>
+
+                <li class="dropdown" ng-show="usrConectado.admin">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuarios<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-show="usrConectado.admin" role="presentation" ><a href="#pendientes">Pendientes</a>
+                    </li>
+                    <li ng-show="usrConectado.admin" role="presentation" ><a href="#declinados">Declinados</a>
+                    </li>
+                    <li ng-show="usrConectado.admin" role="presentation" ><a href="#registrados">Registrados</a>
+                    </li>
+                    <li ng-show="usrConectado.admin" role="presentation" ><a href="#registrar">Nuevo</a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li ng-show="usrConectado.admin" role="presentation" ><a href="#Estados">Estado</a>
+                </li>
+                <li ng-show="usrConectado.admin" role="presentation" ><a href="#membresias">Membresias</a>
+                </li>
+                <li ng-show="usrConectado.cliente" role="presentation" ><a href="#perfil">Mi Perfil </a>
+                </li>
+                <li ng-show="  usrConectado.estaConectado">
+                  <button class="btn btn-danger"ng-click="salir()" >Salir</button>
+                </li>
+              </ul>
+            </div>
+
           </div>
+
+
+
         </div>
       </div>
     </div>
 
-      <div class="row marketing">
 
-
-      </div>
     <div class="container">
     <div ng-view="">
 
@@ -84,7 +114,7 @@
     <div class="footer">
       <div class="container">
 
-        <p><span class="glyphicon glyphicon-envelope"></span> kelvinpimentel@gmail.com</p>
+        <p><span class="glyphicon glyphicon-envelope"></span> </p>
       </div>
     </div>
     </div>
@@ -118,6 +148,7 @@
     <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
     <script src='bower_components/lodash/dist/lodash.compat.min.js'></script>
     <script src='bower_components/angular-google-maps/dist/angular-google-maps.min.js'></script>
+    <script src="bower_components/angular-utils-pagination/dirPagination.js"></script>
 
     <!-- endbower
 <script src="bower_components/angular-google-maps/package.js">
@@ -138,10 +169,19 @@
         <script src="scripts/controllers/nav.js"></script>
         <script src="scripts/controllers/alertas.js"></script>
         <script src="scripts/controllers/alta.js"></script>
+        <script src="scripts/controllers/alta2.js"></script>
         <script src="scripts/controllers/registrado.js"></script>
         <script src="scripts/controllers/editarusuario.js"></script>
         <script src="scripts/controllers/vehiculos.js"></script>
         <script src="scripts/controllers/tipoalerta.js"></script>
+        <script src="scripts/controllers/dropdown.js"></script>
+        <script src="scripts/controllers/addVehiculo.js"></script>
+        <script src="scripts/controllers/OtherController.js"></script>
+        <script src="scripts/controllers/pendientes.js"></script>
+        <script src="scripts/controllers/declinados.js"></script>
+        <script src="scripts/controllers/registrados.js"></script>
+        <script src="scripts/controllers/EditRow.js"></script>
+        <script src="scripts/controllers/membresias.js"></script>
         <!-- endbuild -->
 </body>
 </html>

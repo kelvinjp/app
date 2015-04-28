@@ -8,7 +8,7 @@
  * Controller of the appApp
  */
 angular.module('appApp')
-  .controller('LoginCtrl', function ($scope, $q, TareasResourse, $log, $cookieStore, $location, md5) {
+  .controller('LoginCtrl', function ($scope, $q, TareasResourse, $log, $cookieStore, $location) {
     var inicioSesion = $q.defer();
     $scope.errormsj =false;
 

@@ -11,7 +11,7 @@ angular.module('appApp')
   .controller('EditarusuarioCtrl', function ($scope, $q, TareasResourse, $log, $cookieStore, $location, $http) {
     var init = function () {
       var usuario = $cookieStore.get('user');
-      $scope.url ='https://alertapp-kelvinjp.c9.io/verUser/'+usuario.idusuario;
+      $scope.url ='http://45.55.242.157:8080/verUser/'+usuario.idusuario;
 
       $http.get($scope.url).success(function(usr2){
 
@@ -32,9 +32,9 @@ angular.module('appApp')
  * Editando..
  * */
 
-var inicioSesion = $q.defer();
+var conn = $q.defer();
 
-    inicioSesion.promise.then(usrASesion);
+    conn.promise.then(usrASesion);
 
     function usrASesion(usr){
       if(usr.affectedRows==1){
@@ -62,7 +62,7 @@ var inicioSesion = $q.defer();
         idtipouser: 1
       })
         .$promise.then(function(usr){
-          inicioSesion.resolve(usr);
+          conn.resolve(usr);
         });
     }
 
