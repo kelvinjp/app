@@ -5,6 +5,7 @@
       <th style="width: 15%">ID</th>
       <th style="width: 25%">Nombre</th>
       <th style="width: 30%">Descripcion</th>
+      <th style="width: 10%">Icono</th>
       <th style="width: 30%">Opciones</th>
     </tr>
 
@@ -24,6 +25,17 @@
                 <span editable-text="tarea.Descripcion" e-name="Descripcion" e-form="rowform"  e-required>
                 {{ tarea.Descripcion || 'empty' }}
             </span>
+      </td>
+      <td class="hidden-xs">
+        <div ng-if="tarea.idestado == 0">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        </div>
+        <div ng-if="tarea.idestado == 1">
+          <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        </div>
+        <div ng-if="tarea.idestado == 2">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </div>
       </td>
 
       <td style="white-space: nowrap">

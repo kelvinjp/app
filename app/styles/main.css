@@ -10,13 +10,12 @@
 *******************************/
 
 
-
-
-
-
-
 /**********************/
 
+form {
+  display: block;
+  margin-top: 20px;
+}
 
 .map-canvas {
   height: 500px;
