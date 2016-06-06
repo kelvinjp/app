@@ -20,7 +20,9 @@ angular
     'ui.bootstrap',
     'angular-md5',
     'uiGmapgoogle-maps',
-    'angularUtils.directives.dirPagination'
+    'angularUtils.directives.dirPagination',
+    'ngMaterial'
+   // ,'ng-mfb'
 
   ])
 
@@ -32,7 +34,7 @@ angular
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
       //Si esta desconectado y intenta entrar a menu lo enviamos a login
       if($cookieStore.get('estaConectado')== false || $cookieStore.get('estaConectado') == null) {
-        if(next.templateUrl == 'views/alertas.html' || next.templateUrl == 'views/pendientes.html'||next.templateUrl == 'views/registrados.html'
+        if(next.templateUrl == 'views/contactos.html' || next.templateUrl == 'views/pendientes.html'||next.templateUrl == 'views/registrados.html'
           ||next.templateUrl == 'views/alta2.html'||next.templateUrl == 'views/declinados.html'
           ||next.templateUrl == 'views/editarusuario.html'||next.templateUrl == 'views/addVehiculo.html'
           ||next.templateUrl == 'views/vehiculos.html'){
@@ -43,7 +45,7 @@ angular
         var usuario = $cookieStore.get('user');
         //SI esta conectado y intenta entrar al login lo enviamos a menu
         if(next.templateUrl == 'views/login.html'){
-          $location.path('/menu')
+          $location.path('/menu');
         }
       }
     });
@@ -56,9 +58,9 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/alertas', {
-        templateUrl: 'views/alertas.html',
-        controller: 'AlertasCtrl'
+      .when('/editarContacto', {
+        templateUrl: 'views/editarContacto.html',
+        controller: 'editarContactoCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -67,6 +69,10 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/login2', {
+        templateUrl: 'views/login2.html',
+        controller: 'Login2Ctrl'
       })
       .when('/pendientes', {
         templateUrl: 'views/pendientes.html',
@@ -111,29 +117,33 @@ angular
       .when('/vehiculos', {
         templateUrl: 'views/vehiculos.html',
         controller: 'VehiculosCtrl'
+      }).
+      when('/contactos', {
+        templateUrl: '../views/contactos.html',
+        controller: 'ContactosCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
-  }).factory('authHttpResponseInterceptor', ['$q', '$location', function ($q, $location) {
-    return {
-      response: function (response) {
-        if (response.status === 401) {
-          console.log("Response 401");
-        }
-        return response || $q.when(response);
-      },
-      responseError: function (rejection) {
-        if (rejection.status === 401) {
-          console.log("Response Error 401", rejection);
-          alert('Login Incorrecto.');
-          // $location.path('/login').search('returnTo', $location.path());
-        }
-        return $q.reject(rejection);
+  })
+	.factory('authInterceptor', function ($rootScope, $q, $window) {
+  return {
+    request: function (config) {
+      config.headers = config.headers || {};
+      if ($window.sessionStorage.token) {
+        config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
       }
+      return config;
+    },
+    response: function (response) {
+      if (response.status === 401) {
+        // handle the case where the user is not authenticated
+      }
+      return response || $q.when(response);
     }
-  }])
-  .config(['$httpProvider', function ($httpProvider) {
-    //Http Intercpetor to check auth failures for xhr requests
-    $httpProvider.interceptors.push('authHttpResponseInterceptor');
-  }]);
+  };
+})
+
+.config(function ($httpProvider) {
+  $httpProvider.interceptors.push('authInterceptor');
+});

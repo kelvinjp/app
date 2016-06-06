@@ -35,7 +35,7 @@ angular.module('appApp')
 
 
     $scope.aceptarUsuario = function(alerta) {
-      $scope.estados = TareasResourse.getMembresias.all();;
+      $scope.estados = TareasResourse.getMembresias.all();
       $scope.selectedEstado = $scope.estados[0];
 
       $scope.guardado = false;
@@ -76,7 +76,7 @@ angular.module('appApp')
       var ed =   TareasResourse.membresia.add({
         username: $scope.alt.username,
         tiempo: $scope.selectedEstado.dias,
-        vence:$scope.alt.vence
+        vence:$scope.alt.vence // Cuando vence el usuario actual.
       })
         .$promise.then(function(ed){
           editA.resolve(ed);

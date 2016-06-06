@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name appApp.controller:NavCtrl
+ * @name appApp.controller:navegCtrl
  * @description
- * # NavCtrl
+ * # navegCtrl
  * Controller of the appApp
  */
 angular.module('appApp')

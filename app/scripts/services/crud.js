@@ -9,105 +9,118 @@
  */
 angular.module('appApp')
   .factory('TareasResourse', function ($resource) {
+    var host ='http://45.55.242.157:8080/';
   var factory = {
 
-    iniciar: $resource('http://45.55.242.157:8080/login',{},{
+    iniciar: $resource(host+'login',{},{
       sesion: {method: 'POST', params:{
-        username:'@username',
+        username:'@email',
         password:'@password'}
       }
     }),
-    getAlert: $resource('http://45.55.242.157:8080/getAlert',{},{
-      all: {method: 'GET',isArray:true}
-    }),
-    getPendientes: $resource('http://45.55.242.157:8080/getPendientes',{},{
-      all: {method: 'GET',isArray:true}
-    }),
-    getDeclinados: $resource('http://45.55.242.157:8080/getDeclinados',{},{
-      all: {method: 'GET',isArray:true}
-    }),
-    getRegistrados: $resource('http://45.55.242.157:8080/getRegistrados',{},{
-      all: {method: 'GET',isArray:true}
-    }),
-    getTipos: $resource('http://45.55.242.157:8080/getTiposAlert',{},{
-      all: {method: 'GET',isArray:true}
-    }),
-    addCliente: $resource('http://45.55.242.157:8080/addUser',{},{
-      nuevoCliente: {method: 'POST', params:{
-        nombres:'@nombres',
-        apellidos:'@apellidos',
-        username:'@username',
-        password:'@password',
-        telefono:'@telefono',
+
+    clienteAgregar: $resource(host+'api/cliente/agregar',{},{
+      agregar: {method: 'POST', params:{
+        nombre:'@nombre',
+        identificacion:'@password',
+        telefono:'@cedula',
+        email:'@email',
         direccion:'@direccion',
-        cedula:'@cedula',
-        idtipouser:'@idtipouser',
-        email:'@email'}
+        idusuario:'@idusuario'}
       }
     }),
-    membresia: $resource('http://45.55.242.157:8080/membresia',{},{
+    clienteEliminar: $resource(host+'api/cliente/eliminar',{},{
+      eliminar: {method: 'POST', params:{
+        idusuario:'@idusuario',
+        idcliente:'@idcliente'
+      }
+      }
+    }),
+    getPendientes: $resource(host+'api/getPendientes',{},{
+      all: {method: 'GET',isArray:true}
+    }),
+    getDeclinados: $resource(host+'api/getDeclinados',{},{
+      all: {method: 'GET',isArray:true}
+    }),
+    getRegistrados: $resource(host+'api/getRegistrados',{},{
+      all: {method: 'GET',isArray:true}
+    }),
+    getTipos: $resource(host+'api/getTiposAlert',{},{
+      all: {method: 'GET',isArray:true}
+    }),
+
+    membresia: $resource(host+'api/membresia',{},{
       add: {method: 'POST', params:{
         username:'@username',
         tiempo:'@tiempo',
         vence:'@vence'}
       }
     }),
-    getEstados: $resource('http://45.55.242.157:8080/getEstados',{},{
+    getEstados: $resource(host+'api/getEstados',{},{
       all: {method: 'GET',isArray:true}
     }),
-    Estado: $resource('http://45.55.242.157:8080/editEstado',{},{
+    Estado: $resource(host+'api/editEstado',{},{
       editar: {method: 'POST', params:{
         idestado:'@idestado',
         nombre:'@nombre',
         Descripcion:'@Descripcion'}
       }
     }),
-    addEstado: $resource('http://45.55.242.157:8080/addEstado',{},{
+    addEstado: $resource(host+'api/addEstado',{},{
       new: {method: 'POST', params:{
         nombre:'@nombre',
         Descripcion:'@Descripcion'}
       }
     }),
-    deleteEstado: $resource('http://45.55.242.157:8080/deleteEstado',{},{
+    deleteEstado: $resource(host+'api/deleteEstado',{},{
       dl: {method: 'POST', params:{
         idestado:'@idestado'}
       }
     }),
-    getMembresias: $resource('http://45.55.242.157:8080/getMembresia',{},{
+    getMembresias: $resource(host+'api/getMembresia',{},{
       all: {method: 'GET',isArray:true}
     }),
-    editMembresia: $resource('http://45.55.242.157:8080/editMembresia',{},{
+    editMembresia: $resource(host+'api/editMembresia',{},{
       editar: {method: 'POST', params:{
         idmebresia:'@idmebresia',
         nombre:'@nombre',
         dias:'@dias'}
       }
     }),
-    addMembresia: $resource('http://45.55.242.157:8080/addMembresia',{},{
+    addMembresia: $resource(host+'api/addMembresia',{},{
       new: {method: 'POST', params:{
         nombre:'@nombre',
         dias:'@dias'}
       }
     }),
-    deleteMembresia: $resource('http://45.55.242.157:8080/deleteMembresia',{},{
+    deleteMembresia: $resource(host+'api/deleteMembresia',{},{
       dl: {method: 'POST', params:{
         idmebresia:'@idmebresia'}
       }
     }),
-    declinar: $resource('http://45.55.242.157:8080/declinarUsuario',{},{
+    declinar: $resource(host+'api/declinarUsuario',{},{
       usuario: {method: 'POST', params:{
         username:'@username'
       }
       }
     })
       ,
-    eliminarVehiculo: $resource('http://45.55.242.157:8080/eliminarVehiculo',{},{
+    eliminarVehiculo: $resource(host+'api/eliminarVehiculo',{},{
       eliminar: {method: 'POST', params:{idvehiculo:'@idvehiculo'}
       }
     }),
 
+    factura: $resource(host+'api/factura/agregar',{},{
+      agregar: {method: 'POST', params:{
+        cliente: '@cliente',
+        encabezado: '@encabezado',
+        detalle: '@detalle'
+      }
+      }
+    }),
 
-    editar: $resource('http://45.55.242.157:8080/editUser',{},{
+
+    editar: $resource(host+'api/editUser',{},{
       cliente: {method: 'POST', params:{
         nombres:'@nombres',
         apellidos:'@apellidos',
@@ -121,7 +134,7 @@ angular.module('appApp')
       }
       }
     }),
-     e: $resource('http://45.55.242.157:8080/editAlert',{},{
+     e: $resource(host+'api/editAlert',{},{
       a: {method: 'POST', params:{
         idalerta:'@idalerta',
         estado:'@estado',
@@ -129,7 +142,7 @@ angular.module('appApp')
       }
       }
     }),
-     vehiculo: $resource('http://45.55.242.157:8080/newVehiculo',{},{
+     vehiculo: $resource(host+'api/newVehiculo',{},{
       add: {method: 'POST', params:{
         color: '@color',
         placa: '@placa',
@@ -140,7 +153,7 @@ angular.module('appApp')
         fecha: '@fecha'
       }
       }
-    }),
+    })
 
   };
   return factory;
