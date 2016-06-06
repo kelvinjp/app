@@ -13,13 +13,12 @@
 angular.module('appApp')
   .controller('membresiasCtrl', function ($scope, $filter, $http, $q, $location,TareasResourse) {
     $scope.tareas = TareasResourse.getMembresias.all();
-//ordenar
-    $scope.editar = false;
 
+    $scope.editar = false;
 
     $scope.saveUser = function(data, id) {
       if(id==-1){
-        var usr= TareasResourse.addMembresia.new({
+          var usr= TareasResourse.addMembresia.new({
           nombre:data.nombre,
           dias:data.dias
         });

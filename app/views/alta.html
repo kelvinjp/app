@@ -1,44 +1,58 @@
 <div ng-controller="AltaCtrl">
-  <div class="container">
-    <h1>Registrase</h1>
-    <hr>
+  <div layout="column" layout-fill style="padding-bottom: 20px;">
+    <md-toolbar class="md-primary">
+    <h1 class="md-toolbar-tools">
+      DARSE DE DALTA
+    </h1>
+    </md-toolbar>
+    </md-toolbar>
 
-    <form role="form" name="forma">
+    <md-whiteframe class="md-whiteframe-z5" layout layout-align="center center" >
+    <md-content layout-padding>
+      <form name="userForm" >
+        <div layout layout-sm="column">
 
-      <div class="form-group" ng-class="{'has-error': forma.UsernameU.$invalid, 'has-success': forma.UsernameU.$valid}">
-        <label for="inputNombre">Nombre de usuario</label>
-        <input id="inputUsername" type="text" class="form-control" placeholder="Username" name="UsernameU" ng-model="clienteUsername" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': forma.passwordU.$invalid, 'has-success': forma.passwordU.$valid}">
-      <label for="inputNombre">Contraseña</label>
-      <input id="inputPassword" type="password" class="form-control" placeholder="Password" name="passwordU" ng-model="clientePassoword" required>
-    </div>
-      <div class="form-group" ng-class="{'has-error': forma.EmailU.$invalid, 'has-success': forma.EmailU.$valid}">
-      <label for="inputNombre">Email</label>
-      <input id="inputEmail" type="text" class="form-control" placeholder="Email" name="EmailU" ng-model="clienteEmail" required>
-    </div>
-      <div class="form-group" ng-class="{'has-error': forma.nombreU.$invalid, 'has-success': forma.nombreU.$valid}">
-      <label for="inputNombre">Nombre</label>
-      <input id="inputNombre" type="text" class="form-control" placeholder="Nombre" name="nombreU" ng-model="clienteNombre" required>
-    </div>
-      <div class="form-group" ng-class="{'has-error': forma.apellidoU.$invalid, 'has-success': forma.apellidoU.$valid}">
-        <label for="inputApellido">Apellido</label>
-        <input id="inputApellido" type="text" class="form-control" placeholder="Apellido" name="apellidoU" ng-model="clienteApellido" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': forma.CedulaU.$invalid, 'has-success': forma.CedulaU.$valid}">
-        <label for="inputNombre">Cedula</label>
-        <input id="inputId" type="text" class="form-control" placeholder="Cedula" name="CedulaU" ng-model="clienteCedula" required>
-      </div>
-      <div class="form-group" ng-class="{'has-error': forma.DireccionU.$invalid, 'has-success': forma.DireccionU.$valid}">
-        <label for="inputDireccion">Direccion</label>
-        <input id="inputDireccion" type="text" class="form-control" placeholder="Direccion" name="DireccionU" ng-model="clienteDireccion" required>
-      </div>
+          <md-input-container flex>
+            <label>Email</label>
+            <input required type="email" ng-model="clienteEmail" >
+            <div ng-messages="false">
+              <div ng-show="emailExiste" ng-message="requiered">Este Email ya existe.</div>
+            </div>
+          </md-input-container>
 
-      <div class="form-group" ng-class="{'has-error': forma.TelefonoU.$invalid, 'has-success': forma.TelefonoU.$valid}">
-        <label for="inputTelefono">Telefono</label>
-        <input id="inputTelefono" type="number" class="form-control" placeholder="Telefono" name="TelefonoU" ng-model="clienteTelfono" required>
-      </div>
-      <button class="btn btn-success " ng-disabled="forma.$invalid" ng-click="altaClietne()">Registrar</button>
-    </form>
-  </div>
+          <md-input-container flex>
+            <label>Nombres</label>
+            <input ng-model="clienteNombre">
+          </md-input-container>
+
+
+        </div>
+        <div layout layout-sm="column">
+
+          <md-input-container flex>
+            <label>Contraseña</label>
+            <input  required type="password"  ng-model="clientePassoword" >
+          </md-input-container>
+
+          <md-input-container flex>
+            <label>Confimar Contraseña</label>
+            <input  required type="password"
+                    ng-model="clientePassoword2">
+            <div ng-messages="false">
+              <div ng-show="validatePass()"
+                   ng-message="requiered">Contraseña no coinciden</div>
+            </div>
+          </md-input-container>
+
+        </div>
+      </form>
+      <section layout="row" layout-sm="column" layout-align="center center">
+        <md-button class="md-raised md-primary" ng-click="altaClietne()">Darte de Alta</md-button>
+        <!-- <md-button flex ng-disabled="!userForm.$error" class="md-raised md-primary">cancelar</md-button>-->
+      </section>
+    </md-content>
+    </md-whiteframe>
+    <md-progress-linear md-mode="indeterminate" ng-show="pbar"></md-progress-linear>
 </div>
+  </div>
+

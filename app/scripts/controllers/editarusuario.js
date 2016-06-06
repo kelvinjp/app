@@ -11,7 +11,7 @@ angular.module('appApp')
   .controller('EditarusuarioCtrl', function ($scope, $q, TareasResourse, $log, $cookieStore, $location, $http) {
     var init = function () {
       var usuario = $cookieStore.get('user');
-      $scope.url ='http://45.55.242.157:8080/verUser/'+usuario.idusuario;
+      $scope.url ='http://45.55.242.157:8080/api/verUser/'+usuario.idusuario;
 
       $http.get($scope.url).success(function(usr2){
 

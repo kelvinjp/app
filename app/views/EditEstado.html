@@ -1,4 +1,8 @@
 <div ng-controller="EditablerowCtrl">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Estados de Alertas</h3>
+    </div>
   <table class="table table-striped table-hover table-condensed">
 
     <tr style="font-weight: bold">
@@ -49,17 +53,16 @@
           </button>
         </form>
         <div class="buttons" ng-show="!rowform.$visible">
-          <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-          <button class="btn btn-danger" ng-click="removeUser(tarea.idestado)">eliminar</button>
+          <button class="btn btn-primary" ng-click="rowform.$show()"><i class="fa fa-cog"></i></button>
+          <button class="btn btn-danger" ng-click="removeUser(tarea.idestado)"><i class="fa fa-trash-o fa-lg"></i></button>
         </div>
 
       </td>
     </tr>
-
   </table>
-
-  <button class="btn btn-default" ng-click="addEstado()">Agregar Estado</button>
+    <button class="btn btn-default" ng-click="addEstado()">Agregar Estado</button>
 
   <br><br>
 
 </div>
+  </div>
